@@ -1,4 +1,4 @@
-﻿# Changelog
+# Changelog
 
 ## 0.1.0-rc.2 - 2026-08-24
 

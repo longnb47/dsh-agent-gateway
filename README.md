@@ -1,4 +1,4 @@
-﻿# dsh-agent-gateway
+# dsh-agent-gateway
 
 An MCP stdio gateway that exposes local AI CLI agents to DeepSeek Harness (DSH) as MCP tools.
 

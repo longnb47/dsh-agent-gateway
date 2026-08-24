@@ -11,13 +11,13 @@ The gateway discovers configured agent profiles, invokes the matching CLI driver
 DSH is currently a developer preview. Install the bundle into the intended DSH profile:
 
 ```console
-dsh plugin add @longnb47/dsh-agent-gateway
+dsh plugin add @longnb47/dsh-agent-gateway@next
 ```
 
 Use `--profile <profile>` when targeting a specific profile:
 
 ```console
-dsh plugin --profile <profile> add @longnb47/dsh-agent-gateway
+dsh plugin --profile <profile> add @longnb47/dsh-agent-gateway@next
 ```
 
 For an RC distributed as a local package tarball, pass the tarball path instead of the package name:

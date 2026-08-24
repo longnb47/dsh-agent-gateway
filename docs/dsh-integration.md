@@ -7,7 +7,7 @@ The standard integration is a DSH bundle install. Do not point DSH at a gateway 
 Install the package into the intended DSH profile:
 
 ```console
-dsh plugin --profile <profile> add @longnb47/dsh-agent-gateway
+dsh plugin --profile <profile> add @longnb47/dsh-agent-gateway@next
 ```
 
 For an RC supplied as a local tarball, use its path instead:

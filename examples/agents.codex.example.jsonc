@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "defaults": { "timeoutSeconds": 600, "maxOutputBytes": 2097152, "maxConcurrency": 2 },
+  "drivers": {
+    "codex-headless": {
+      "kind": "codex",
+      // Absolute paths on this machine (required; no shell, no relative path).
+      "command": "<absolute path to node.exe>",
+      "script": "<absolute path to codex.js>"
+    }
+  },
+  "agents": [{
+    "name": "codex-reviewer",
+    "label": "Codex Reviewer",
+    "description": "Read-only Codex review and second opinion (hard read-only sandbox)",
+    "driver": "codex-headless",
+    "purposes": ["review", "design", "security", "second-opinion"],
+    "policy": { "filesystem": "read-only", "network": "deny", "credentials": "deny", "process": "deny-shell" },
+    "promptContract": "read-only-specialist",
+    "defaults": {
+      // "model": "gpt-5.4",
+      "timeoutSeconds": 600
+    },
+    "enabled": true
+  }]
+}

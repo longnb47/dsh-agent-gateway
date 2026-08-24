@@ -1,0 +1,4 @@
+import { readFileSync } from "node:fs"; import { homedir } from "node:os"; import { resolve } from "node:path";
+import { stripJsoncComments } from "./jsonc.js"; import { validateConfig } from "./validator.js"; import type { GatewayConfig } from "./types.js";
+export function resolveConfigPath(env: NodeJS.ProcessEnv = process.env): string { return env.DSH_AGENT_GATEWAY_CONFIG || resolve(homedir(), ".dsh", "agent-gateway", "agents.jsonc"); }
+export function loadConfig(path = resolveConfigPath()): GatewayConfig { try { return validateConfig(JSON.parse(stripJsoncComments(readFileSync(path, "utf8")))); } catch (error) { throw new Error(`Config load failed (${path}): ${error instanceof Error ? error.message : String(error)}`); } }

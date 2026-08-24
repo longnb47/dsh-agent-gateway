@@ -1,0 +1,4 @@
+import type { AgentPolicy } from "../types.js";
+export type PolicyNarrowing = Partial<AgentPolicy>;
+const ranks = { filesystem: ["none", "read-only", "workspace-write"], network: ["deny", "allow"], credentials: ["deny", "inherited-approved"], process: ["deny-shell", "driver-default"] } as const;
+export function narrowPolicy(profile: AgentPolicy, requested: PolicyNarrowing = {}): AgentPolicy { const output: AgentPolicy = { ...profile }; for (const key of Object.keys(requested) as (keyof AgentPolicy)[]) { const value = requested[key]; if (value === undefined) continue; const values = ranks[key] as readonly string[]; if (values.indexOf(value) > values.indexOf(profile[key])) throw new Error(`Policy escalation denied for ${key}`); (output as unknown as Record<string, string>)[key] = value; } return output; }

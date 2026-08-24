@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "defaults": { "timeoutSeconds": 600, "maxOutputBytes": 2097152, "maxConcurrency": 2 },
+  "drivers": {
+    "agy-headless": {
+      "kind": "agy",
+      // Absolute path to the AGY CLI binary on this machine (required; no shell, no relative path).
+      "command": "<absolute path to agy.exe>"
+    }
+  },
+  "agents": [{
+    "name": "agy-reviewer",
+    "label": "AGY Reviewer",
+    "description": "Read-only AGY review and second opinion (best-effort enforcement)",
+    "driver": "agy-headless",
+    "purposes": ["review", "design", "security", "second-opinion"],
+    "policy": { "filesystem": "read-only", "network": "deny", "credentials": "deny", "process": "deny-shell" },
+    "promptContract": "read-only-specialist",
+    "defaults": {
+      // "model": "gemini-3.1-pro",
+      "effort": "high",
+      "timeoutSeconds": 600
+    },
+    "enabled": true
+  }]
+}

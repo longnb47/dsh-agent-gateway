@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "defaults": { "timeoutSeconds": 600, "maxOutputBytes": 2097152, "maxConcurrency": 2 },
+  "drivers": {
+    "fake": {
+      "kind": "fake",
+      "command": "node",
+      // `script` resolves relative to the installed package root (no machine path).
+      "script": "examples/fake-cli/cli.mjs"
+    }
+  },
+  "agents": [{
+    "name": "fake-agent",
+    "label": "Fake Agent",
+    "description": "Fake read-only agent for smoke tests (no real CLI, no network)",
+    "driver": "fake",
+    "purposes": ["review", "second-opinion"],
+    "policy": { "filesystem": "read-only", "network": "deny", "credentials": "deny", "process": "deny-shell" },
+    "promptContract": "read-only-specialist",
+    "defaults": { "timeoutSeconds": 60 },
+    "enabled": true
+  }]
+}

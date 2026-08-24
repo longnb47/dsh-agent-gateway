@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "defaults": { "timeoutSeconds": 600, "maxOutputBytes": 2097152, "maxConcurrency": 2 },
+  "drivers": {
+    "opencode-headless": {
+      "kind": "opencode",
+      // Absolute path to the OpenCode binary on this machine (required; no shell, no relative path).
+      "command": "<absolute path to opencode.exe>"
+    }
+  },
+  "agents": [{
+    "name": "opencode-reviewer",
+    "label": "OpenCode Reviewer",
+    "description": "Read-only OpenCode review and second opinion (best-effort; free zen models, server-side quota)",
+    "driver": "opencode-headless",
+    "purposes": ["review", "design", "second-opinion"],
+    "policy": { "filesystem": "read-only", "network": "deny", "credentials": "deny", "process": "deny-shell" },
+    "promptContract": "read-only-specialist",
+    "defaults": {
+      "model": "hy3-free",
+      "timeoutSeconds": 600
+    },
+    "enabled": true
+  }]
+}

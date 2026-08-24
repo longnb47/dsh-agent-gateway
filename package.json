@@ -1,0 +1,70 @@
+﻿{
+  "name": "@longnb47/dsh-agent-gateway",
+  "version": "0.1.0-rc.2",
+  "description": "MCP stdio gateway exposing AI CLI agents to DSH as MCP tools",
+  "main": "dist/index.js",
+  "type": "module",
+  "license": "ISC",
+  "engines": {
+    "node": ">=22.3.0"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "mcp",
+    "agent-gateway",
+    "cli",
+    "agy",
+    "codex",
+    "opencode"
+  ],
+  "author": "longnb47",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/longnb47/dsh-agent-gateway.git"
+  },
+  "bugs": {
+    "url": "https://github.com/longnb47/dsh-agent-gateway/issues"
+  },
+  "homepage": "https://github.com/longnb47/dsh-agent-gateway#readme",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test \"tests/unit/**/*.test.ts\" \"tests/integration/**/*.test.ts\" \"tests/e2e/**/*.test.ts\"",
+    "test:pack": "tsx --test \"tests/package/**/*.test.ts\"",
+    "prepack": "pnpm run build && pnpm run typecheck && pnpm test && pnpm run test:pack",
+    "verify:release": "pnpm run typecheck && pnpm test && pnpm run test:pack && node scripts/clean-profile-test.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "files": [
+    "dist",
+    "cordis.patch.yml",
+    "examples",
+    "agents.schema.json",
+    "docs/dsh-integration.md",
+    "docs/config.md",
+    "docs/troubleshooting.md",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "SECURITY.md"
+  ],
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.22.0",
+      "onFail": "download"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2"
+  }
+}

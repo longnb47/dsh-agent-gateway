@@ -1,0 +1,17 @@
+# Bundle patch layer for @longnb47/dsh-agent-gateway.
+# Inserts the DSH MCP client row that boots this gateway as an MCP stdio server.
+# The entry path is resolved from the installed package (via the profile's
+# node_modules), never from a developer workspace path.
+- insert:
+    - id: dsh-agent-gateway
+      name: "@deepseek-ai/dsh-mcp-client"
+      config:
+        serverName: agent-gateway
+        transport: stdio
+        command: !!js process.execPath
+        args:
+          - !!js "process.getBuiltinModule('node:module').createRequire(new URL('package.json', ctx.baseUrl)).resolve('@longnb47/dsh-agent-gateway')"
+        toolCallTimeoutMs: 660000
+        failOnStartupError: false
+        reconnect:
+          maxAttempts: 3

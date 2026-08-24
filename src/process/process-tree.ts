@@ -1,0 +1,2 @@
+import { spawn } from "node:child_process";
+export async function killProcessTree(pid: number): Promise<void> { if (pid <= 0) return; if (process.platform !== "win32") { try { process.kill(pid, "SIGKILL"); } catch {} return; } await new Promise<void>((resolve) => { const child = spawn("taskkill", ["/PID", String(pid), "/T", "/F"], { shell: false, windowsHide: true }); child.once("error", resolve); child.once("close", () => resolve()); }); }

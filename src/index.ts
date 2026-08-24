@@ -1,0 +1,2 @@
+import { loadConfig, resolveConfigPath } from "./config/loader.js"; import { DriverRegistry } from "./drivers/registry.js"; import { McpStdioServer } from "./mcp/server.js"; import { ToolService } from "./mcp/tools.js";
+try { const config = loadConfig(resolveConfigPath()); new McpStdioServer(new ToolService(config, new DriverRegistry(config))).start(); } catch (error) { process.stderr.write(`dsh-agent-gateway startup failed: ${error instanceof Error ? error.message : String(error)}\n`); process.exitCode = 1; }

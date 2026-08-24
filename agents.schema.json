@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DSH Agent Gateway config",
+  "description": "This schema is structural editor assistance. The fail-closed runtime validator (`src/config/validator.ts`) is authoritative, and enforces cross-field rules JSON Schema cannot express here — notably rejecting duplicate agent `name` values and rejecting `model` on drivers whose `kind` is not agy/codex/opencode (the fake driver does not support `model`).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "drivers", "agents"],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "const": 1
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "timeoutSeconds": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 2147483647
+        },
+        "maxOutputBytes": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 2147483647
+        },
+        "maxConcurrency": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 2147483647
+        }
+      }
+    },
+    "allowedWorkspaceRoots": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "drivers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "command"],
+        "properties": {
+          "kind": {
+            "enum": ["fake", "agy", "codex", "opencode"]
+          },
+          "command": {
+            "type": "string",
+            "minLength": 1
+          },
+          "script": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "label",
+          "description",
+          "driver",
+          "purposes",
+          "policy",
+          "promptContract",
+          "enabled"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "driver": {
+            "type": "string",
+            "minLength": 1
+          },
+          "purposes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "policy": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["filesystem", "network", "credentials", "process"],
+            "properties": {
+              "filesystem": {
+                "enum": ["none", "read-only", "workspace-write"]
+              },
+              "network": {
+                "enum": ["deny", "allow"]
+              },
+              "credentials": {
+                "enum": ["deny", "inherited-approved"]
+              },
+              "process": {
+                "enum": ["deny-shell", "driver-default"]
+              }
+            }
+          },
+          "promptContract": {
+            "type": "string",
+            "minLength": 1
+          },
+          "agent": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+          },
+          "requiredSkill": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+          },
+          "defaults": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "effort": {
+                "enum": ["low", "medium", "high"]
+              },
+              "timeoutSeconds": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 2147483647
+              },
+              "model": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$"
+              }
+            }
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

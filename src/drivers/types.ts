@@ -1,0 +1,6 @@
+import type { AgentPolicy, AgentResult } from "../types.js";
+export interface DriverCapabilities { readonly supportsModel: boolean; readonly supportsEffort: boolean; }
+export interface ResolvedAgentRequest { readonly profile: string; readonly driver: string; readonly contract: string; readonly agent?: string; readonly task: string; readonly cwd: string; readonly model?: string; readonly effort?: "low" | "medium" | "high"; readonly requiredSkill?: string; readonly timeoutSeconds: number; readonly maxOutputBytes: number; readonly policy: AgentPolicy; }
+export interface ProcessSpec { readonly executable: string; readonly args: readonly string[]; readonly cwd: string; readonly env: Readonly<Record<string, string>>; readonly stdin?: string; }
+export interface ProcessOutput { readonly stdout: string; readonly stderr: string; readonly exitCode: number | null; readonly signal: string | null; readonly durationMs: number; readonly truncated: boolean; }
+export interface AgentDriver { readonly id: string; readonly kind: string; readonly capabilities: DriverCapabilities; buildInvocation(request: ResolvedAgentRequest): Promise<ProcessSpec>; parseResult(output: ProcessOutput, request: ResolvedAgentRequest): Promise<AgentResult>; }
